@@ -3,6 +3,18 @@ Unblock Threadpool based on lock-free ringQueue(CAS). Use c++11 lib: thread , fu
 
 
 
+#### Compile
+
+```bash
+# use cas ringQueue as tas queue
+$> g++ main.cpp -Wall -lpthread -o casThreadpool
+
+# use stl list as task queue
+$> g++ main.cpp -Wall -lpthread -o stlThreadpool -DUSESTLQ
+```
+
+
+
 #### Project Tree
 
 > |-- LICENSE
