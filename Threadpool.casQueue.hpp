@@ -48,10 +48,9 @@ private:
     
     rq::LockFreeRingQueue<Task> taskQueue_;
     uint32_t threadsNum_;
-    uint32_t queueSize_;
 };
 
-ThreadPool::ThreadPool(uint32_t threadNum, uint32_t queueSize):taskQueue_(queueSize_)
+ThreadPool::ThreadPool(uint32_t threadNum, uint32_t queueSize):taskQueue_(queueSize)
 {
     isRunning_.store(true, std::memory_order_release);
     threadsNum_ = threadNum;
@@ -126,7 +125,7 @@ uint32_t ThreadPool::size()
 
 ThreadPool::Task ThreadPool::take()
 {
-    Task task;
+    Task task = {0};
 
     {
         std::unique_lock<std::mutex> ulk(this->mutex_);
@@ -140,13 +139,12 @@ ThreadPool::Task ThreadPool::take()
             ulk.unlock();
             return task;
         }
-
+     
         assert(!taskQueue_.empty());
+        // TODO
         taskQueue_.deQueue(task);
     }
-    
-    
-    
+
     return task;
 }
 
@@ -165,7 +163,6 @@ void *ThreadPool::threadFunc(void *arg)
         fullcond_.notify_all();
         assert(task); 
         task();
-        
     }
     return 0;
 }
