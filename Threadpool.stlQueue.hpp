@@ -88,7 +88,6 @@ ThreadPool::addTask(Function &&fcn, Args &&... args)
 
 
     return ret;
-
 }
 
 void ThreadPool::stop()

@@ -109,8 +109,8 @@ ThreadPool::addTask(Function &&fcn, Args &&... args)
     auto t = std::make_shared<asyncTaskType>(std::bind(fcn, args...));
 
     
-        taskQueue_.enQueue( [t]() { (*t)(); });  
-        emptycond_.notify_one();
+    taskQueue_.enQueue( [t]() { (*t)(); });  
+    emptycond_.notify_one();
     
 
     return t->get_future();
@@ -129,9 +129,7 @@ ThreadPool::Task ThreadPool::take()
     Task task;
 
     {
-       std::unique_lock<std::mutex> ulk(this->mutex_);
-        
-  
+        std::unique_lock<std::mutex> ulk(this->mutex_);
         emptycond_.wait(ulk, [this] { 
             return !isRunning_.load(std::memory_order_consume) 
             || !this->taskQueue_.empty(); });
@@ -143,8 +141,8 @@ ThreadPool::Task ThreadPool::take()
             return task;
         }
 
-    assert(!taskQueue_.empty());
-    taskQueue_.deQueue(task);
+        assert(!taskQueue_.empty());
+        taskQueue_.deQueue(task);
     }
     
     
@@ -164,12 +162,8 @@ void *ThreadPool::threadFunc(void *arg)
             break;
         }
 
-        
-        assert(task);
-
- 
         fullcond_.notify_all();
-      
+        assert(task); 
         task();
         
     }

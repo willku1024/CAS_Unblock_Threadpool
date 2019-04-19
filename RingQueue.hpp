@@ -156,44 +156,6 @@ namespace rq
     template <typename T>
     bool LockFreeRingQueue<T>::enQueue(T &&data)
     {
-    //     uint32_t currentReadIndex;
-    //     uint32_t currentWriteIndex;
-
-    //     do
-    //     {
-    //         currentReadIndex = this->_readIndex;
-    //         currentWriteIndex = this->_writeIndex;
-
-    //         if (indexOfQueue(currentWriteIndex + 1) ==
-    //             indexOfQueue(currentReadIndex))
-    //         {
-    //             cout << "false:" << data << endl;
-    //             return false;
-    //         }
-
-    //     } while (!CAS(&this->_writeIndex,
-    //                 &currentWriteIndex,
-    //                 (currentWriteIndex + 1)));
-
-    //     this->_queue[indexOfQueue(currentWriteIndex)] = data;
-
-    //     while (!CAS(&this->_lastWriteIndex, &currentWriteIndex,
-    //                 currentWriteIndex + 1))
-    //     {
-    //         // this is a good place to yield the thread in case there are more
-    //         // software threads than hardware processors and you have more
-    //         // than 1 producer thread
-    //         // have a look at sched_yield (POSIX.1b)
-    //         sched_yield();
-    //     }
-    //     cout << "true:" << data << endl;
-
-    // #ifndef ISEMP
-    //     atomic_fetch_add(&this->_length, 1);
-    // #endif // ifndef ISEMP
-
-    //     return true;
-         //T data_ = data;
          return enQueue(data);
     }
 
